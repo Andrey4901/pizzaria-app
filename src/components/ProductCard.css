@@ -1,0 +1,68 @@
+/* Usamos variáveis CSS para as cores exatas do seu protótipo */
+:root {
+    --color-header-bg: #1e5128; /* Verde escuro */
+    --color-header-text: #f0e68c; /* Amarelo pálido/branco */
+    --color-body-bg: #fdf5e6;    /* Bege/Creme */
+    --color-footer-bg: #8B0000;  /* Vermelho escuro/Vinho */
+    --color-product-name: #FFD700; /* Amarelo Dourado */
+    --color-product-price: #FFFFFF; /* Branco */
+  }
+  
+  .product-card {
+    /* Arredondamento e sombra */
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    
+    /* Garante que o conteúdo interno não "vaze" das bordas arredondadas */
+    overflow: hidden; 
+    
+    height: 100%; /* Faz todos os cards terem a mesma altura */
+    display: flex;
+    flex-direction: column;
+    border: none; /* Remove a borda padrão do Bootstrap */
+    background-color: var(--color-body-bg); /* Fundo bege como base */
+  }
+  
+  /* 1. Cabeçalho (Categoria) */
+  .card-header-custom {
+    background-color: var(--color-header-bg);
+    color: var(--color-header-text);
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    padding: 12px;
+    border-bottom: none; /* Remove borda do Bootstrap */
+  }
+  
+  /* 2. Corpo (Foto) */
+  .card-image-placeholder {
+    height: 180px; /* Altura fixa para o placeholder da foto */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+    font-size: 1.1rem;
+    font-weight: 500;
+    background-color: var(--color-body-bg);
+  }
+  
+  /* 3. Rodapé (Detalhes) */
+  .card-footer-custom {
+    background-color: var(--color-footer-bg);
+    padding: 15px;
+    border-top: none; /* Remove borda do Bootstrap */
+    margin-top: auto; /* Empurra o rodapé para baixo */
+  }
+  
+  .product-name {
+    color: var(--color-product-name);
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+  }
+  
+  .product-price {
+    color: var(--color-product-price);
+    font-size: 1.05rem;
+    font-weight: 500;
+  }
