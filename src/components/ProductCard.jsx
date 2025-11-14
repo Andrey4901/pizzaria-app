@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import './ProductCard.css'; // Importa nosso CSS customizado
-
+import './ProductCard.css'; // Importa nosso CSS (agora mais forte)
 
 // Recebe um 'product' como propriedade
 const ProductCard = ({ product }) => {
@@ -10,24 +9,22 @@ const ProductCard = ({ product }) => {
   const formattedPrice = `R$ ${product.price.toFixed(2).replace('.', ',')}`;
 
   return (
-    // Usamos o Card do Bootstrap como base
+    // 1. O card principal tem a classe 'product-card'
     <Card className="product-card">
       
-      {/* 1. Cabeçalho Customizado (Categoria) */}
-      <Card.Header as="h5" className="card-header-custom">
+      {/* 2. O Header não precisa de classe customizada. 
+         Nosso CSS vai estilizá-lo automaticamente. */}
+      <Card.Header as="h5">
         {product.category}
       </Card.Header>
 
-      {/* 2. Corpo Customizado (Foto) */}
-      {/* Aqui usaremos um placeholder. 
-        No futuro, trocaríamos por: <Card.Img variant="top" src={product.image} />
-      */}
+      {/* 3. O placeholder da imagem */}
       <div className="card-image-placeholder">
         (Foto)
       </div>
 
-      {/* 3. Rodapé Customizado (Detalhes) */}
-      <Card.Footer className="card-footer-custom">
+      {/* 4. O Footer também não precisa de classe customizada. */}
+      <Card.Footer>
         <div className="product-name">{product.name}</div>
         <div className="product-price">{formattedPrice}</div>
       </Card.Footer>
