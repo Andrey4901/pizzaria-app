@@ -1,28 +1,25 @@
-/* Usamos variáveis CSS para as cores exatas do seu protótipo */
-:root {
-  --color-header-bg: #1e5128; /* Verde escuro */
-  --color-header-text: #f0e68c; /* Amarelo pálido/branco */
-  --color-body-bg: #fdf5e6;    /* Bege/Creme */
-  --color-footer-bg: #8B0000;  /* Vermelho escuro/Vinho */
-  --color-product-name: #FFD700; /* Amarelo Dourado */
-  --color-product-price: #FFFFFF; /* Branco */
-}
+
 
 .product-card {
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  overflow: hidden; 
+  overflow: hidden;
   height: 100%;
   display: flex;
   flex-direction: column;
   border: none;
   /* O fundo bege do corpo é aplicado aqui */
-  background-color: var(--color-body-bg); 
+  background-color: var(--color-body-bg);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
-/* ESTA É A MUDANÇA:
-  Em vez de '.card-header-custom', falamos:
-  "Qualquer .card-header QUE ESTEJA DENTRO de um .product-card"
+.product-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.20);
+}
+
+/* "Qualquer .card-header QUE ESTEJA DENTRO de um .product-card"
   Isso é MAIS FORTE que a regra padrão do Bootstrap.
 */
 .product-card .card-header {
@@ -35,19 +32,17 @@
   border-bottom: none;
 }
 
-.card-image-placeholder {
-  height: 180px; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #777;
-  font-size: 1.1rem;
-  font-weight: 500;
-  background-color: var(--color-body-bg);
+.product-card-image {
+  height: 180px; /* Mantém a mesma altura fixa do placeholder */
+  
+  /* Garante que a imagem cubra o espaço sem distorcer */
+  object-fit: cover; 
+  
+  /* Fundo para caso a imagem demore a carregar */
+  background-color: var(--color-body-bg); 
 }
 
-/* MESMA MUDANÇA AQUI:
-  "Qualquer .card-footer QUE ESTEJA DENTRO de um .product-card"
+/* "Qualquer .card-footer QUE ESTEJA DENTRO de um .product-card"
 */
 .product-card .card-footer {
   background-color: var(--color-footer-bg);

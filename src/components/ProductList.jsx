@@ -1,7 +1,9 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import ProductCard from './ProductCard';
-import { products } from './dummyData'; // Importa nossos dados
+import ProductCard from './ProductCard.jsx'; // Corrigido para .jsx se for o caso
+import { products } from './dummyData';
+
+//import { Link } from 'react-router-dom';
 
 const ProductList = () => {
   return (
