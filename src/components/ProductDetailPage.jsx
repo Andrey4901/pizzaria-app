@@ -1,4 +1,3 @@
-// O 'useState' já deve estar aqui
 import React, { useState } from 'react'; 
 import { useParams, useNavigate } from 'react-router-dom';
 import { products } from './dummyData';
@@ -9,16 +8,13 @@ const ProductDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate(); 
   
-  // --- ESTADOS EXISTENTES ---
+  // --- ESTADOS ---
   const [selectedOption, setSelectedOption] = useState(null);
-  
-  // --- 1. NOVOS ESTADOS PARA O CEP ---
-  const [cep, setCep] = useState(''); // Guarda o CEP digitado
-  const [address, setAddress] = useState(null); // Guarda a resposta da API
-  const [isLoading, setIsLoading] = useState(false); // Feedback de "carregando"
-  const [error, setError] = useState(null); // Guarda mensagens de erro
+  const [cep, setCep] = useState(''); 
+  const [address, setAddress] = useState(null); 
+  const [isLoading, setIsLoading] = useState(false); 
+  const [error, setError] = useState(null); 
 
-  
   const product = products.find(p => p.id == id);
 
   if (!product) {
@@ -29,38 +25,33 @@ const ProductDetailPage = () => {
     navigate(-1);
   };
 
-  // --- 2. NOVA FUNÇÃO DE BUSCA DA API ---
+  // --- FUNÇÃO DE BUSCA DA API ---
   const handleCepSearch = async () => {
-    // Limpa estados anteriores
     setAddress(null);
     setError(null);
     
-    // Validação simples
     if (cep.length < 8) {
-      setError("Por favor, digite um CEP válido.");
+      setError("CEP inválido.");
       return;
     }
 
-    setIsLoading(true); // Inicia o "carregando"
+    setIsLoading(true); 
 
     try {
-      // Chama a API ViaCEP (JSON)
       const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
       const data = await response.json();
 
-      // ViaCEP retorna 'erro: true' se não encontrar
       if (data.erro) {
         setError("CEP não encontrado.");
         setAddress(null);
       } else {
-        // Sucesso! Guarda o endereço no 'state'
         setAddress(data);
       }
     } catch (e) {
-      setError("Falha ao conectar com a API. Tente novamente.");
+      setError("Erro na conexão.");
     }
 
-    setIsLoading(false); // Termina o "carregando"
+    setIsLoading(false); 
   };
 
 
@@ -69,7 +60,7 @@ const ProductDetailPage = () => {
   return (
     <div className="detail-page-container">
       
-      {/* ... (Seu Header e Body continuam iguais) ... */}
+      {/* 1. CABEÇALHO */}
       <header className="detail-header">
         <Button 
           variant="outline-light" 
@@ -81,17 +72,56 @@ const ProductDetailPage = () => {
         <h1 className="cursive-font">{product.name}</h1>
       </header>
 
+      {/* 2. CORPO (CONTEÚDO RESTAURADO AQUI) */}
       <Container className="detail-body my-4">
-        {/* ... (Código da Imagem, Descrição, Opções de Bebida, etc.) ... */}
+        <Row>
+          {/* Coluna da Esquerda: Imagem e Preço */}
+          <Col md={6} className="d-flex flex-column align-items-center">
+            <img 
+              src={product.image} 
+              alt={product.name} 
+              className="product-image-detail" 
+            />
+            <div className="product-price-large mt-3">
+              {formattedPrice}
+            </div>
+          </Col>
+
+          {/* Coluna da Direita: Descrição e Opções */}
+          <Col md={6}>
+            <div className="product-description">
+              <h2 className="cursive-font desc-title">Descrição:</h2>
+              <p className="desc-text">{product.description}</p>
+            </div>
+
+            {/* Lógica de Bebidas (Opções) */}
+            {product.options && product.options.length > 0 && (
+              <div className="product-options">
+                <Form>
+                  {product.options.map((option, index) => (
+                    <Form.Check
+                      key={index}
+                      type="radio"
+                      id={`option-${index}`}
+                      name="drink-option"
+                      label={option}
+                      value={option}
+                      onChange={(e) => setSelectedOption(e.target.value)}
+                      className="option-label"
+                    />
+                  ))}
+                </Form>
+              </div>
+            )}
+          </Col>
+        </Row>
       </Container>
 
-      {/* --- 3. ATUALIZANDO O JSX DO RODAPÉ --- */}
+      {/* 3. RODAPÉ (COM ENDEREÇO COMPLETO) */}
       <footer className="detail-footer">
         <Container>
           <Row className="align-items-center">
-            {/* Seção do CEP */}
             <Col xs={12} md={7}>
-              {/* Note que mudamos 'Form' para 'div' para evitar o submit */}
               <div className="cep-section">
                 
                 <Form.Group controlId="cepInput" className="cep-input-group">
@@ -99,47 +129,51 @@ const ProductDetailPage = () => {
                   <Form.Control 
                     type="text" 
                     placeholder="00000000"
-                    maxLength={8} // Limita o input
-                    value={cep} // Conecta ao state 'cep'
-                    onChange={(e) => setCep(e.target.value)} // Atualiza o state
+                    maxLength={8} 
+                    value={cep} 
+                    onChange={(e) => setCep(e.target.value)} 
                   />
                 </Form.Group>
                 
                 <Button 
                   variant="success" 
                   className="cep-button"
-                  onClick={handleCepSearch} // Chama a função de busca
-                  disabled={isLoading} // Desativa o botão enquanto carrega
+                  onClick={handleCepSearch} 
+                  disabled={isLoading}
                 >
-                  {isLoading ? 'Buscando...' : 'Buscar'}
+                  {isLoading ? '...' : 'Buscar'}
                 </Button>
                 
                 <div className="address-display">
-                  <strong>Endereço:</strong>
                   
-                  {/* --- LÓGICA DE EXIBIÇÃO DINÂMICA --- */}
-                  {isLoading && <span>Carregando...</span>}
+                  {isLoading && <span>Buscando endereço...</span>}
                   
                   {error && <span className="cep-error">{error}</span>}
                   
+                  {/* AQUI ESTÁ A CORREÇÃO DO ENDEREÇO */}
                   {address && (
-                    <>
-                      <span>{address.localidade} / {address.uf}</span>
-                      <span>{address.cep}</span>
-                    </>
+                    <div style={{ lineHeight: '1.2' }}>
+                      {/* Linha 1: Rua e Bairro */}
+                      <span style={{ display: 'block', fontWeight: 'bold' }}>
+                        {address.logradouro} {address.bairro ? `- ${address.bairro}` : ''}
+                      </span>
+                      {/* Linha 2: Cidade, UF e CEP */}
+                      <span style={{ display: 'block' }}>
+                        {address.localidade} / {address.uf} - {address.cep}
+                      </span>
+                    </div>
                   )}
 
                   {!address && !isLoading && !error && (
-                    <>
-                      <span>Cidade/Estado</span>
-                      <span>CEP</span>
-                    </>
+                    <div style={{ lineHeight: '1.2' }}>
+                      <span style={{ display: 'block', fontWeight: 'bold' }}>Endereço Completo</span>
+                      <span style={{ display: 'block' }}>Cidade/UF - CEP</span>
+                    </div>
                   )}
                 </div>
               </div>
             </Col>
             
-            {/* Seção do Botão Comprar */}
             <Col xs={12} md={5} className="text-md-end mt-3 mt-md-0">
               <Button variant="success" className="buy-button">COMPRAR</Button>
             </Col>
