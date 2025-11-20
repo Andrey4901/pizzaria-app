@@ -145,3 +145,27 @@
   color: #ffc4c4; /* Um vermelho claro que combina com o fundo */
   font-weight: bold;
 }
+
+.modal-header-custom {
+  background-color: var(--color-header-bg);
+  color: var(--color-header-text);
+  border-bottom: none;
+}
+
+.modal-header-custom .btn-close {
+  filter: invert(1); /* Deixa o X de fechar branco */
+}
+
+.modal-body-custom {
+  background-color: var(--color-body-bg);
+}
+
+.modal-footer-custom {
+  background-color: var(--color-body-bg);
+  border-top: 1px solid #ddd;
+  justify-content: center; /* Centraliza os botões Sim/Não */
+}
+
+.modal-footer-custom .btn {
+  min-width: 100px; /* Deixa os botões com a mesma largura */
+}
